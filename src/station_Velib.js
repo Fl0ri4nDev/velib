@@ -1,6 +1,6 @@
 export default class Station_Velib{
 
-  
+
 constructor (pLat,pLon, name, id)
 {
   this.height=10;
@@ -10,6 +10,9 @@ constructor (pLat,pLon, name, id)
   this.lat=pLat;
   this.lon=pLon;
   this.type="velib";
+  this.placesLibres=-1;
+  this.velo=-1;
+
 }
 
 
@@ -17,7 +20,8 @@ constructor (pLat,pLon, name, id)
 
 toString()
 {
- return  this.stationName  + " ["+ this.stationID + "]"
+ return  "["+ this.stationID + "] "+this.stationName  + "<br> Places :"+ this.placesLibres + "<br> Vélos :"+ this.velo;
+
 }
 
 }
