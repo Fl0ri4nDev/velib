@@ -1,35 +1,75 @@
-// On initialise la latitude et la longitude de Paris (centre de la carte)
+import StationVelibManager from "./StationVelibManager.js";
 
 
-var myLat=0;
-var myLon=0;
-var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
+export default class OSMmap{
 
-function success(pos) {
+getMaCarte()
+{
+  return this.macarte;
+}
+
+constructor()
+  {
+    this.myLat=48.852969;
+    this.myLon=2.349903;
+    this.options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    this.macarte = null;
+    this.layerMarker="";
+
+
+  }
+
+success(pos) {
   var crd = pos.coords;
-  myLat=crd.latitude;
-  myLon=crd.longitude;
-  initMap();
+  var myLat=crd.latitude;
+  var myLon=crd.longitude;
+
+  var myPosition = L.marker([myLat, myLon]).addTo(this.getMaCarte());
+//  myPosition.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+
 
 }
 
-function error(err) {
+error(err) {
   console.warn(`ERREUR (${err.code}): ${err.message}`);
 }
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+
+getMyPosition()
+{
+  navigator.geolocation.getCurrentPosition(success, this.error, this.options);
+}
+
+cleanMap()
+{
+  this.layerMarker.clearLayers();
+}
+
+addMarkerVelib(pArrayStation_Velib)
+{
+  console.log ("[addMarkerVelib]");
+  var i=0;
+  for(i=0;i<pArrayStation_Velib.length;i++)
+  {
+    var myMarker=L.marker([pArrayStation_Velib[i].lat, pArrayStation_Velib[i].lon]);
+    myMarker.bindPopup("<b>"+ pArrayStation_Velib[i].getStationInfo() + "</b><br>" + pArrayStation_Velib[i].getStationOccupation(), {permanent: false, className: "my-label", offset: [0, 0] });
+  myMarker.addTo(this.layerMarker);
+  }
+  this.layerMarker.addTo(this.macarte);
+
+}
 
 
-
-var macarte = null;
-// Fonction d'initialisation de la carte
-function initMap() {
+initMap()
+{
     // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
-    macarte = L.map('map').setView([myLat, myLon], 15);
+    this.macarte = L.map('map').setView([this.myLat, this.myLon], 15);
+    this.layerMarker=L.layerGroup().addTo(this.macarte);
     // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
 
   //  var urlLayerOSM ="http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg";
@@ -41,10 +81,9 @@ function initMap() {
         attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
         minZoom: 1,
         maxZoom: 20
-    }).addTo(macarte);
+    }).addTo(this.macarte);
 
+    this.macarte.locate({setView: true, maxZoom: 16});
 
-
-    var myPosition = L.marker([myLat, myLon]).addTo(macarte);
-    myPosition.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+}
 }
