@@ -94,6 +94,7 @@ function displayOnlyStationAround(pDistance)
   cleanListStation();
   var myArrayStationsInPerimeter = myStationVelibManager.selectOnlyStationInPerimeter(myOSMmap.currentPositionLat,myOSMmap.currentPositionLon, pDistance);
   var i=0;
+
   for(i=0;i<myArrayStationsInPerimeter.length;i++)
   {
     addBlockStation(myArrayStationsInPerimeter[i]);

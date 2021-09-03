@@ -20,6 +20,7 @@ constructor (pLat,pLon, pName, pCode,pId)
   this.isRenting=-1;
   this.lastReported=-1;
   this.displayOnMap=false;
+  this.distanceFromPosition=-1;
 }
 
 

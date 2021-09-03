@@ -22,12 +22,16 @@
         <div id="map" height=100%>	</div>
 <br> <br>
 
-<button onclick="displayAll()">Display All </button>
-<button onclick="displayOnlyStationAround()">Display close </button>
-<button onclick="refreshMap()">Refresh </button>
-<button onclick="resetMap()">Reset </button>
-<button onclick="cleanMap()">Clean </button>
+<button class="button" onclick="displayAll()">Display All </button>
+<button class="button" onclick="displayOnlyStationAround()">Display close </button>
+<button class="button"  onclick="refreshMap()">Refresh </button>
+<button class="button" onclick="resetMap()">Reset </button>
+<button class="button" onclick="cleanMap()">Clean </button>
 <input id="inputDistance" value=500>
+<input min="200" max="1000" value="500" step="200" id="sliderDistance" type="range"  onchange="document.getElementById('inputDistance').value=document.getElementById('sliderDistance').value">
+
+
+
 <div id="containerListStations" class="containerListStations">
 </div>
 

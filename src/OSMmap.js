@@ -96,7 +96,7 @@ initMap()
 
     this.macarte.locate({setView: true, maxZoom: 16});
     var self=this;
-    
+
     this.macarte.on('locationfound', onLocationFound);
 
     function onLocationFound(e) {
