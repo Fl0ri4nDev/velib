@@ -53,7 +53,7 @@ import_StationVelib(pData)
 
 
 
-getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
+getStationsByDistance(pMyLat, pMyLon,pMaxDistance)
 {
 
   var arrayStationInPerimeter=[];
@@ -84,11 +84,11 @@ getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
 }
 
 
-selectOnlyStationInPerimeter(pMyPositionLat,pMyPositionLon)
+selectOnlyStationInPerimeter(pMyPositionLat,pMyPositionLon,pDistance)
 {
 
 
-    var myArrayStationsInPerimeter=this.getStationsByDistance(500, pMyPositionLat, pMyPositionLon);
+    var myArrayStationsInPerimeter=this.getStationsByDistance(pMyPositionLat, pMyPositionLon,pDistance);
     this.SwitchAllStationDisplay(false);
 
     var i=0;
@@ -97,7 +97,7 @@ selectOnlyStationInPerimeter(pMyPositionLat,pMyPositionLon)
       myArrayStationsInPerimeter[i].displayOnMap=true;
     }
 
-    
+
 return myArrayStationsInPerimeter;
 }
 

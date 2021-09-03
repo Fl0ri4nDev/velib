@@ -22,6 +22,12 @@ constructor (pLat,pLon, pName, pCode,pId)
   this.displayOnMap=false;
 }
 
+
+getStationName()
+{
+  return stationName.slice(0,15);
+}
+
 getStatus()
 {
   return this.isInstalled>0 && this.isReturning>0 && this.isRenting>0;

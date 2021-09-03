@@ -96,25 +96,7 @@ initMap()
 
     this.macarte.locate({setView: true, maxZoom: 16});
     var self=this;
-    this.macarte.on('click', function(e) {
-
-        self.currentPositionLat=e.latlng.lat;
-        self.currentPositionLon= e.latlng.lng;
-        var myIcon = L.icon({
-          iconUrl: 'https://icon-library.com/images/geolocation-icon-png/geolocation-icon-png-5.jpg',
-          iconSize: [40, 40],
-          iconAnchor: [20, 40],
-          });
-
-        self.layerMarkerPosition.clearLayers();
-
-        var myPositionMarker=L.marker(e.latlng,{icon: myIcon});
-        myPositionMarker.addTo(self.layerMarkerPosition);
-        self.layerMarkerPosition.addTo(self.macarte);
-
-
-    });
-
+    
     this.macarte.on('locationfound', onLocationFound);
 
     function onLocationFound(e) {
