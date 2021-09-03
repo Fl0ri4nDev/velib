@@ -50,6 +50,7 @@ error(err) {
 }
 
 
+
 getMyPosition()
 {
   navigator.geolocation.getCurrentPosition(success, this.error, this.options);

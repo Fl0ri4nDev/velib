@@ -44,13 +44,43 @@ function getStationsDistance()
   var i=0;
   for(i=0;i<myArrayStationsInPerimeter.length;i++)
   {
-    myArrayStationsInPerimeter[i].displayOnMap=true;
-    console.log(myArrayStationsInPerimeter[i].stationName);
+  myArrayStationsInPerimeter[i].displayOnMap=true;
+  addBlockStation(myArrayStationsInPerimeter[i].stationName,myArrayStationsInPerimeter[i].veloMecanique,myArrayStationsInPerimeter[i].placesLibres);
   }
   refreshMap();
 
 }
 
+
+function addBlockStation(pStationName, pNbVeloMecanique, pNbPlacesLibres)
+{
+  var myHTMLContainer=document.getElementById("containerListStations");
+  var newBlocStation = document.createElement('div');
+  newBlocStation.className="stationBloc";
+  newBlocStation.innerHTML=pStationName +"<hr>";
+
+
+  var newBlocDispoVelo = document.createElement('div');
+  newBlocDispoVelo.className="bloc_DispoVelo";
+  newBlocDispoVelo.innerHTML="<img src='../img/bike.png' class='iconVelo'>"+pNbVeloMecanique;
+
+  var newBlocDispoPlace = document.createElement('div');
+  newBlocDispoPlace.className="bloc_DispoPlace";
+  newBlocDispoPlace.innerHTML="<img src='../img/bikePark.png' class='iconPlace'>"+pNbPlacesLibres;
+
+
+  var newBlocDispo = document.createElement('div');
+  newBlocDispo.className="bloc_DispoStation";
+  newBlocDispo.appendChild(newBlocDispoVelo);
+  newBlocDispo.appendChild(newBlocDispoPlace);
+
+
+
+newBlocStation.appendChild(newBlocDispo);
+
+
+  myHTMLContainer.appendChild(newBlocStation);
+}
 //document.getElementById ("BtnClearMarker").addEventListener ("click", cleanMap(), false);
 
 function refreshMap()
