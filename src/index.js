@@ -9,7 +9,22 @@ myOSMmap.initMap();
 myOSMmap.macarte.on('locationfound', onLocationFound);
 
 function onLocationFound(e) {
-  L.marker(e.latlng).addTo(myOSMmap.macarte);
+
+
+  //  var myPosition = L.marker([myLat, myLon],{icon: myIcon}).addTo(this.getMaCarte());
+  // myPosition.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+  var myIcon = L.icon({
+    iconUrl: 'https://icon-library.com/images/geolocation-icon-png/geolocation-icon-png-5.jpg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  //  popupAnchor: [-3, -76],
+    //shadowSize: [68, 95],
+  //  shadowAnchor: [22, 94]
+});
+
+
+  L.marker(e.latlng,{icon: myIcon}).addTo(myOSMmap.macarte);
   }
 
 
@@ -22,17 +37,22 @@ myOSMmap.addMarkerVelib(myStationVelibManager.arrayStation_Velib);
 
 //document.getElementById ("BtnClearMarker").addEventListener ("click", cleanMap(), false);
 
+function refreshMap()
+{
+  cleanMap();
+  resetMap();
+}
+
 function cleanMap()
 {
-  console.log ("[cleanMap]");
-  myOSMmap.cleanMap();
+    myOSMmap.cleanMap();
 }
 
 function resetMap()
 {
-  console.log ("[resetMap]");
   myOSMmap.addMarkerVelib(myStationVelibManager.arrayStation_Velib);
 }
 window.cleanMap = cleanMap;
 window.resetMap = resetMap;
+window.refreshMap = refreshMap;
 //myOSMmap.getMyPosition();

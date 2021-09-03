@@ -28,8 +28,18 @@ success(pos) {
   var myLat=crd.latitude;
   var myLon=crd.longitude;
 
-  var myPosition = L.marker([myLat, myLon]).addTo(this.getMaCarte());
-//  myPosition.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+  var myIcon = L.icon({
+    iconUrl: 'https://icon-library.com/images/geolocation-icon-png/geolocation-icon-png-5.jpg',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+
+//  var myPosition = L.marker([myLat, myLon],{icon: myIcon}).addTo(this.getMaCarte());
+// myPosition.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 
 
 
