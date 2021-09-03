@@ -51,9 +51,10 @@ import_StationVelib(pData)
 }
 
 
+
+
 getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
 {
-  console.log("[getStationsBydistance] pMyLat=" + pMyLat);
 
   var arrayStationInPerimeter=[];
   var i=0;
@@ -66,7 +67,6 @@ getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
     }
 
   }
-  console.log("[getStationsBydistance]" + arrayStationInPerimeter.length + " stations");
   return arrayStationInPerimeter;
 
 }
@@ -74,8 +74,6 @@ getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
 
  getStationPosByID(pArrayStations,pID)
 {
-//  console.log("[FUNCTION] Start getStationPosByID("+pArrayStations.length+","+pID+")");
-
   var i=0;
   for (i=0;i<pArrayStations.length;i++)
   {
@@ -86,9 +84,27 @@ getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
 }
 
 
+selectOnlyStationInPerimeter(pMyPositionLat,pMyPositionLon)
+{
+
+
+    var myArrayStationsInPerimeter=this.getStationsByDistance(500, pMyPositionLat, pMyPositionLon);
+    this.SwitchAllStationDisplay(false);
+
+    var i=0;
+    for(i=0;i<myArrayStationsInPerimeter.length;i++)
+    {
+      myArrayStationsInPerimeter[i].displayOnMap=true;
+    }
+
+    
+return myArrayStationsInPerimeter;
+}
+
+
+
 setDispoStation (pArrayStations, pArrayDispo)
 {
-//  console.log("[setDispoStation] pArrayStations=" + pArrayStations.length + " pArrayDispo="+pArrayDispo.length);
   var i=0;
   for(i=0;i<pArrayDispo.length;i++)
   {
@@ -105,11 +121,9 @@ setDispoStation (pArrayStations, pArrayDispo)
       pArrayStations[myStationPos].velo=pArrayDispo[i]["num_bikes_available"];
       pArrayStations[myStationPos].veloMecanique=pArrayDispo[i]["num_bikes_available_types"][0]["mechanical"];
       pArrayStations[myStationPos].veloElectrique=pArrayDispo[i]["num_bikes_available_types"][1]["ebike"];
-      console.log("[setDispoStation] pArrayStations[myStationPos].velo="+pArrayStations[myStationPos].velo + "|" + pArrayStations[myStationPos].veloMecanique + "|" +pArrayStations[myStationPos].veloElectrique+ "|" +pArrayStations[myStationPos].isRenting+ "|" +pArrayStations[myStationPos].isReturning+ "|" +pArrayStations[myStationPos].isInstalled+ "|" +pArrayStations[myStationPos].lastReported );
     }
   }
 
-  console.log("[setDispoStation] END");
 
 }
 
@@ -118,7 +132,7 @@ setDispoStation (pArrayStations, pArrayDispo)
 {
   let requestURL ="https://velib-metropole-opendata.smoove.pro/opendata/Velib_Metropole/station_status.json";
   let request = new XMLHttpRequest();
-var self=this;
+  var self=this;
   request.open("GET", requestURL);
   request.responseType = "text";
   request.send();
