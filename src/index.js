@@ -22,7 +22,8 @@ myOSMmap.macarte.on('click', function(e) {
     var myPositionMarker=L.marker(e.latlng,{icon: myIcon});
     myPositionMarker.addTo(self.layerMarkerPosition);
     self.layerMarkerPosition.addTo(self.macarte);
-    displayOnlyStationAround(1000);
+    var myDistanceInput=document.getElementById("inputDistance").value;
+    displayOnlyStationAround(myDistanceInput);
 
 });
 
@@ -39,21 +40,44 @@ myOSMmap.addMarkerVelib(myStationVelibManager.arrayStation_Velib);
 
 
 
-function addBlockStation(pStationName, pNbVeloMecanique,pNbVeloElectrique, pNbPlacesLibres)
+function addBlockStation(pStationVelib)
 {
+
+  var myStationName=pStationVelib.stationName;
+  var myNbVeloMecanique=pStationVelib.veloMecanique;
+  var myNbVeloElectrique=pStationVelib.veloElectrique;
+  var myNbPlacesLibres=pStationVelib.placesLibres;
+
+  var myDistance= parseInt(myStationVelibManager.Distance(pStationVelib.lat,pStationVelib.lon,myOSMmap.currentPositionLat,myOSMmap.currentPositionLon));
+
+  var classOccupation="";
+
+  if(myNbVeloMecanique+myNbVeloElectrique==0)
+  {
+    classOccupation="noVelo";
+  }
+  else if(myNbPlacesLibres==0)
+  {
+    classOccupation="noPlaces";
+  }
+  else
+  {
+    classOccupation="classic";
+  }
+
   var myHTMLContainer=document.getElementById("containerListStations");
   var newBlocStation = document.createElement('div');
-  newBlocStation.className="stationBloc";
-  newBlocStation.innerHTML=pStationName.slice(0,25) +"<hr>";
+  newBlocStation.className="stationBloc "+ classOccupation;
+  newBlocStation.innerHTML=myStationName.slice(0,25) +"<br>("+myDistance + "m) <hr>";
 
 
   var newBlocDispoVelo = document.createElement('div');
   newBlocDispoVelo.className="bloc_DispoVelo";
-  newBlocDispoVelo.innerHTML="<img src='../img/bike.png' class='iconVelo'> "+(pNbVeloMecanique+pNbVeloElectrique) + " [ M:"+pNbVeloMecanique + " | E:"+pNbVeloElectrique+" ]";
+  newBlocDispoVelo.innerHTML="<img src='../img/bike.png' class='iconVelo'> "+(myNbVeloMecanique+myNbVeloElectrique) + " [ M:"+myNbVeloMecanique + " | E:"+myNbVeloElectrique+" ]";
 
   var newBlocDispoPlace = document.createElement('div');
   newBlocDispoPlace.className="bloc_DispoPlace";
-  newBlocDispoPlace.innerHTML="<img src='../img/bikePark.png' class='iconPlace'> "+pNbPlacesLibres;
+  newBlocDispoPlace.innerHTML="<img src='../img/bikePark.png' class='iconPlace'> "+myNbPlacesLibres;
 
   var newBlocDispo = document.createElement('div');
   newBlocDispo.className="bloc_DispoStation";
@@ -72,7 +96,7 @@ function displayOnlyStationAround(pDistance)
   var i=0;
   for(i=0;i<myArrayStationsInPerimeter.length;i++)
   {
-    addBlockStation(myArrayStationsInPerimeter[i].stationName,myArrayStationsInPerimeter[i].veloMecanique,myArrayStationsInPerimeter[i].veloElectrique,myArrayStationsInPerimeter[i].placesLibres);
+    addBlockStation(myArrayStationsInPerimeter[i]);
   }
   refreshMap();
 

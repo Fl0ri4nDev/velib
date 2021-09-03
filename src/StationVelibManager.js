@@ -60,16 +60,32 @@ getStationsByDistance(pMyLat, pMyLon,pMaxDistance)
   var i=0;
   for (i=0;i<this.arrayStation_Velib.length;i++)
   {
+    var myDistance=this.Distance(this.arrayStation_Velib[i].lat,this.arrayStation_Velib[i].lon,pMyLat,pMyLon);
 
-    if(this.Distance(this.arrayStation_Velib[i].lat,this.arrayStation_Velib[i].lon,pMyLat,pMyLon)<pMaxDistance)
+    if(myDistance<pMaxDistance)
     {
+      this.arrayStation_Velib[i].distanceFromPosition=myDistance;
       arrayStationInPerimeter.push(this.arrayStation_Velib[i]);
     }
 
   }
+
+  arrayStationInPerimeter.sort( this.compare );
   return arrayStationInPerimeter;
 
 }
+
+compare( a, b ) {
+  if ( a.distanceFromPosition < b.distanceFromPosition ){
+    return -1;
+  }
+  if ( a.distanceFromPosition > b.distanceFromPosition ){
+    return 1;
+  }
+  return 0;
+}
+
+
 
 
  getStationPosByID(pArrayStations,pID)
@@ -95,6 +111,7 @@ selectOnlyStationInPerimeter(pMyPositionLat,pMyPositionLon,pDistance)
     for(i=0;i<myArrayStationsInPerimeter.length;i++)
     {
       myArrayStationsInPerimeter[i].displayOnMap=true;
+
     }
 
 
