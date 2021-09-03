@@ -66,9 +66,12 @@ addMarkerVelib(pArrayStation_Velib)
   var i=0;
   for(i=0;i<pArrayStation_Velib.length;i++)
   {
-    var myMarker=L.marker([pArrayStation_Velib[i].lat, pArrayStation_Velib[i].lon]);
-    myMarker.bindPopup("<b>"+ pArrayStation_Velib[i].getStationInfo() + "</b><br>" + pArrayStation_Velib[i].getStationOccupation(), {permanent: false, className: "my-label", offset: [0, 0] });
-  myMarker.addTo(this.layerMarker);
+    if(pArrayStation_Velib[i].displayOnMap==true)
+    {
+      var myMarker=L.marker([pArrayStation_Velib[i].lat, pArrayStation_Velib[i].lon]);
+      myMarker.bindPopup("<b>"+ pArrayStation_Velib[i].getStationInfo() + "</b><br>" + pArrayStation_Velib[i].getStationOccupation(), {permanent: false, className: "my-label", offset: [0, 0] });
+      myMarker.addTo(this.layerMarker);
+    }
   }
   this.layerMarker.addTo(this.macarte);
 

@@ -19,6 +19,7 @@ constructor (pLat,pLon, pName, pCode,pId)
   this.isReturning=-1;
   this.isRenting=-1;
   this.lastReported=-1;
+  this.displayOnMap=false;
 }
 
 getStatus()

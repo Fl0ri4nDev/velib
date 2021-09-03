@@ -14,10 +14,19 @@ constructor()
 this.myImport_StationVelib="";
   this.myImport_StationVelib="";
   this.arrayStation_Velib = [];
+  this.displayOnlyInPerimeter=false;
 }
 
 
+SwitchAllStationDisplay(pIsVisible)
+{
+  var i=0;
+  for (i=0;i<this.arrayStation_Velib.length;i++)
+  {
 
+    this.arrayStation_Velib[i].displayOnMap=pIsVisible;
+  }
+}
 
 
 init_StationVelib()
@@ -39,6 +48,27 @@ import_StationVelib(pData)
     arrayStation_Velib.push(station);
   }
     return arrayStation_Velib;
+}
+
+
+getStationsByDistance(pMaxDistance, pMyLat, pMyLon)
+{
+  console.log("[getStationsBydistance] pMyLat=" + pMyLat);
+
+  var arrayStationInPerimeter=[];
+  var i=0;
+  for (i=0;i<this.arrayStation_Velib.length;i++)
+  {
+
+    if(this.Distance(this.arrayStation_Velib[i].lat,this.arrayStation_Velib[i].lon,pMyLat,pMyLon)<pMaxDistance)
+    {
+      arrayStationInPerimeter.push(this.arrayStation_Velib[i]);
+    }
+
+  }
+  console.log("[getStationsBydistance]" + arrayStationInPerimeter.length + " stations");
+  return arrayStationInPerimeter;
+
 }
 
 
@@ -99,4 +129,24 @@ var self=this;
     self.setDispoStation (pArrayStations,velibStationsDispo["data"]["stations"]);
   };
 }
+
+
+//Conversion des degrés en radian
+   convertRad(input){
+     return (Math.PI * input)/180;
+   }
+
+   Distance(lat_a_degre, lon_a_degre, lat_b_degre, lon_b_degre){
+
+    var R = 6378000 //Rayon de la terre en mètre
+
+   var lat_a = this.convertRad(lat_a_degre);
+   var lon_a = this.convertRad(lon_a_degre);
+   var lat_b = this.convertRad(lat_b_degre);
+   var lon_b = this.convertRad(lon_b_degre);
+
+   var d = R * (Math.PI/2 - Math.asin( Math.sin(lat_b) * Math.sin(lat_a) + Math.cos(lon_b - lon_a) * Math.cos(lat_b) * Math.cos(lat_a)))
+   return d;
+   }
+
 }

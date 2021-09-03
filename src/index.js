@@ -1,7 +1,8 @@
 import StationVelibManager from "./StationVelibManager.js";
 import OSMmap from "./OSMmap.js";
 
-
+var myLat=0;
+var myLon=0;
 
 var myOSMmap=new OSMmap();
 myOSMmap.initMap();
@@ -22,8 +23,8 @@ function onLocationFound(e) {
     //shadowSize: [68, 95],
   //  shadowAnchor: [22, 94]
 });
-
-
+  myLat=e.latlng.lat;
+  myLon=e.latlng.lng;
   L.marker(e.latlng,{icon: myIcon}).addTo(myOSMmap.macarte);
   }
 
@@ -34,6 +35,21 @@ myStationVelibManager.init_StationVelib();
 console.log ("[CALL addMarkerVelib]");
 myOSMmap.addMarkerVelib(myStationVelibManager.arrayStation_Velib);
 
+
+function getStationsDistance()
+{
+  var myArrayStationsInPerimeter=myStationVelibManager.getStationsByDistance(500, myLat, myLon)
+  myStationVelibManager.SwitchAllStationDisplay(false);
+
+  var i=0;
+  for(i=0;i<myArrayStationsInPerimeter.length;i++)
+  {
+    myArrayStationsInPerimeter[i].displayOnMap=true;
+    console.log(myArrayStationsInPerimeter[i].stationName);
+  }
+  refreshMap();
+
+}
 
 //document.getElementById ("BtnClearMarker").addEventListener ("click", cleanMap(), false);
 
@@ -52,6 +68,17 @@ function resetMap()
 {
   myOSMmap.addMarkerVelib(myStationVelibManager.arrayStation_Velib);
 }
+
+
+
+function displayAll()
+{
+  myStationVelibManager.SwitchAllStationDisplay(true);
+    resetMap();
+
+}
+window.displayAll=displayAll;
+window.getStationsDistance=getStationsDistance;
 window.cleanMap = cleanMap;
 window.resetMap = resetMap;
 window.refreshMap = refreshMap;
