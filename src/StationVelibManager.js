@@ -151,8 +151,13 @@ setDispoStation (pArrayStations, pArrayDispo)
   let request = new XMLHttpRequest();
   var self=this;
   request.open("GET", requestURL);
+
   request.responseType = "text";
+  request.onerror = function () {
+    alert("** An error occurred during the transaction");
+  };
   request.send();
+
   request.onload = function ()
   {
     const velibStationText = request.response;

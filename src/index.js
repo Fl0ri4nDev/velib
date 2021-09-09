@@ -50,41 +50,66 @@ function addBlockStation(pStationVelib)
 
   var myDistance= parseInt(myStationVelibManager.Distance(pStationVelib.lat,pStationVelib.lon,myOSMmap.currentPositionLat,myOSMmap.currentPositionLon));
 
-  var classOccupation="";
+  var classStationVide="";
+  var classStationPleine="";
 
   if(myNbVeloMecanique+myNbVeloElectrique==0)
   {
-    classOccupation="noVelo";
+    classStationVide="noVelo ";
   }
-  else if(myNbPlacesLibres==0)
+if(myNbPlacesLibres==0)
   {
-    classOccupation="noPlaces";
+    classStationPleine="noPlaces";
   }
-  else
-  {
-    classOccupation="classic";
-  }
+
 
   var myHTMLContainer=document.getElementById("containerListStations");
   var newBlocStation = document.createElement('div');
-  newBlocStation.className="stationBloc "+ classOccupation;
-  newBlocStation.innerHTML=myStationName.slice(0,25) +"<br>("+myDistance + "m) <hr>";
+  newBlocStation.className="stationBloc";
+newBlocStation.id=pStationVelib.stationID;
 
 
-  var newBlocDispoVelo = document.createElement('div');
-  newBlocDispoVelo.className="bloc_DispoVelo";
-  newBlocDispoVelo.innerHTML="<img src='../img/bike.png' class='iconVelo'> "+(myNbVeloMecanique+myNbVeloElectrique) + " [ M:"+myNbVeloMecanique + " | E:"+myNbVeloElectrique+" ]";
+newBlocStation.addEventListener('click', function (event) {
+var currentVelibList=[];
+currentVelibList.push(pStationVelib);
+  myOSMmap.addMarkerVelib(currentVelibList);
+
+  alert(newBlocStation.id)
+});
+            // do something
+
+
+  var newBlocStationTitre = document.createElement('div');
+  newBlocStationTitre.className="bloc_titre";
+  newBlocStationTitre.innerHTML=myStationName +" ("+myDistance + "m)";
+
+
+
+//  var newBlocDispoVeloMeca = document.createElement('div');
+//  newBlocDispoVeloMeca.className="bloc_DispoVelo";
+//  newBlocDispoVeloMeca.innerHTML=myNbVeloMecanique +"<img src='../img/bike.png' class='iconVelo'>";
+
+  var newBlocDispoVeloElec = document.createElement('div');
+  newBlocDispoVeloElec.className="bloc_DispoVelo "+ classStationVide;
+  newBlocDispoVeloElec.innerHTML=myNbVeloMecanique+"|"+myNbVeloElectrique+"<br><img src='../img/bike.png' class='iconVelo'> ";
 
   var newBlocDispoPlace = document.createElement('div');
-  newBlocDispoPlace.className="bloc_DispoPlace";
-  newBlocDispoPlace.innerHTML="<img src='../img/bikePark.png' class='iconPlace'> "+myNbPlacesLibres;
+  newBlocDispoPlace.className="bloc_DispoPlaces "+ classStationPleine;
+  newBlocDispoPlace.innerHTML=myNbPlacesLibres+"<br><img src='../img/bikePark.png' class='iconPlace'> ";
 
   var newBlocDispo = document.createElement('div');
   newBlocDispo.className="bloc_DispoStation";
-  newBlocDispo.appendChild(newBlocDispoVelo);
-  newBlocDispo.appendChild(newBlocDispoPlace);
 
-  newBlocStation.appendChild(newBlocDispo);
+
+
+  //newBlocStation.appendChild(newBlocDispoVeloMeca);
+  newBlocStation.appendChild(newBlocDispoVeloElec);
+newBlocStation.appendChild(newBlocDispoPlace);
+
+  newBlocStation.appendChild(newBlocStationTitre);
+
+ newBlocStation.appendChild(newBlocDispo);
+
   myHTMLContainer.appendChild(newBlocStation);
 }
 
