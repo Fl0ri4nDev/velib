@@ -70,11 +70,9 @@ newBlocStation.id=pStationVelib.stationID;
 
 
 newBlocStation.addEventListener('click', function (event) {
-var currentVelibList=[];
-currentVelibList.push(pStationVelib);
-  myOSMmap.addMarkerVelib(currentVelibList);
 
-  alert(newBlocStation.id)
+  myOSMmap.addTempMarker(pStationVelib);
+
 });
             // do something
 
@@ -91,7 +89,7 @@ currentVelibList.push(pStationVelib);
 
   var newBlocDispoVeloElec = document.createElement('div');
   newBlocDispoVeloElec.className="bloc_DispoVelo "+ classStationVide;
-  newBlocDispoVeloElec.innerHTML=myNbVeloMecanique+"|"+myNbVeloElectrique+"<br><img src='../img/bike.png' class='iconVelo'> ";
+  newBlocDispoVeloElec.innerHTML=myNbVeloMecanique+"<br><img src='../img/bike.png' class='iconVelo'> <br>"+myNbVeloElectrique;
 
   var newBlocDispoPlace = document.createElement('div');
   newBlocDispoPlace.className="bloc_DispoPlaces "+ classStationPleine;
@@ -104,9 +102,12 @@ currentVelibList.push(pStationVelib);
 
   //newBlocStation.appendChild(newBlocDispoVeloMeca);
   newBlocStation.appendChild(newBlocDispoVeloElec);
+
+    newBlocStation.appendChild(newBlocStationTitre);
+
 newBlocStation.appendChild(newBlocDispoPlace);
 
-  newBlocStation.appendChild(newBlocStationTitre);
+
 
  newBlocStation.appendChild(newBlocDispo);
 

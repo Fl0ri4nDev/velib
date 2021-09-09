@@ -16,12 +16,13 @@ constructor()
     this.currentPositionLon=this.myPositionLon;
     this.options = {
       enableHighAccuracy: true,
-      timeout: 5000,
+      timeout: 7000,
       maximumAge: 0
     };
     this.macarte = null;
     this.layerMarkerStations="";
     this.layerMarkerPosition="";
+    this.layerMarkerTemp="";
 
   }
 
@@ -55,21 +56,43 @@ getMyPosition()
 cleanMap()
 {
   this.layerMarkerStations.clearLayers();
+  this.layerMarkerTemp.clearLayers();
 }
+
+
+addTempMarker(pStation_Velib)
+{
+
+  this.layerMarkerTemp.clearLayers();
+    var myIcon = L.icon({
+      iconUrl: 'https://icon-library.com/images/geolocation-icon-png/geolocation-icon-png-6.jpg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    var myTempMarker=L.marker([pStation_Velib.lat, pStation_Velib.lon],{icon: myIcon});
+    myTempMarker.addTo(  this.layerMarkerTemp);
+    this.macarte.setZoom(16);
+    this.macarte.setView([pStation_Velib.lat, pStation_Velib.lon]);
+    this.layerMarkerTemp.addTo(this.macarte);
+}
+
 
 addMarkerVelib(pArrayStation_Velib)
 {
+
   var i=0;
   for(i=0;i<pArrayStation_Velib.length;i++)
   {
-    if(pArrayStation_Velib[i].displayOnMap==true)
-    {
-      var myMarker=L.marker([pArrayStation_Velib[i].lat, pArrayStation_Velib[i].lon]);
-      myMarker.bindPopup("<b>"+ pArrayStation_Velib[i].getStationInfo() + "</b><br>" + pArrayStation_Velib[i].getStationOccupation(), {permanent: false, className: "my-label", offset: [0, 0] });
-      myMarker.addTo(this.layerMarkerStations);
-    }
+
+      if(pArrayStation_Velib[i].displayOnMap==true)
+      {
+        var myMarker=L.marker([pArrayStation_Velib[i].lat, pArrayStation_Velib[i].lon]);
+            myMarker.bindPopup("<b>"+ pArrayStation_Velib[i].getStationInfo() + "</b><br>" + pArrayStation_Velib[i].getStationOccupation(), {permanent: false, className: "my-label", offset: [0, 0] });
+            myMarker.addTo(this.layerMarkerStations);
+      }
+
   }
-  this.layerMarkerStations.addTo(this.macarte);
+this.layerMarkerStations.addTo(this.macarte);
 
 }
 
@@ -84,6 +107,8 @@ initMap()
 
     this.layerMarkerStations=L.layerGroup().addTo(this.macarte);
     this.layerMarkerPosition=L.layerGroup().addTo(this.macarte);
+    this.layerMarkerTemp=L.layerGroup().addTo(this.macarte);
+
     // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
     var urlLayerOSM="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png";
 
